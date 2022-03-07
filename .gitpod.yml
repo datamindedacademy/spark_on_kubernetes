@@ -1,0 +1,26 @@
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: false
+    pullRequestsFromForks: false
+    addCheck: false
+    addComment: false
+    addBadge: false
+    
+image:
+  file: .gitpod.Dockerfile
+  
+ports:
+  - port: 4040 # pyspark UI
+    onOpen: notify
+    
+tasks:
+  - name: setup
+    init: |
+      export SPARK_HOME=/opt/spark
+      echo "export SPARK_HOME=/opt/spark" > $HOME/.bashrc
+      clear
+vscode:
+  extensions:
+    - ms-python.python

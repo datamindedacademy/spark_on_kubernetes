@@ -15,7 +15,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz && \
     tar xzf spark-3*.tgz && \
-    rm -rf spark-3*.tgz
+    rm -rf spark-3*.tgz && \
+    ln -s /home/gitpod/spark-3* /opt/spark && \
+    export SPARK_HOME=/opt/spark && \
+    echo "export SPARK_HOME=/opt/spark" >> /home/gitpod/.bashrc
 # Install the AWS CLI and clean up tmp files
 RUN wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -O ./awscliv2.zip && \
     unzip awscliv2.zip && \

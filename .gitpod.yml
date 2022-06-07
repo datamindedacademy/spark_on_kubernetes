@@ -16,12 +16,6 @@ ports:
     onOpen: notify
     
 tasks:
-  - name: K3S (QEMU)
-    command: |
-      /opt/qemu-k3s/qemu.sh
-  - name: Main
-    command: |
-      source /opt/qemu-k3s/ws-init.sh
   - name: setup
     init: |
       export SPARK_HOME=/opt/spark

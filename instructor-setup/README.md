@@ -87,13 +87,18 @@ Navigate to the [dashboard].
 
 ## Grant kubectl admin permissions to students, to run spark-submit
 
-Without more changes to the EKS cluster, participants will encounter an unauthorized server error upon connecting to the Amazon EKS API server. This [recent change] requests the creator of the EKS cluster (you, running `terraform apply` using your SSO credentials) to still run:
+Without more changes to the EKS cluster, participants will encounter an
+unauthorized server error upon connecting to the Amazon EKS API server. This
+[recent change] requests the creator of the EKS cluster (you, running
+`terraform apply` using your SSO credentials) to still run:
 
 ```
 kubectl edit configmap aws-auth --namespace kube-system
 ```
 
-And modify the part under `mapUsers` (only the `mapUsers` section, since in this workshop we configure participants access to AWS using a privilege-limited user account, not a role), to reflect:
+And modify the part under `mapUsers` (only the `mapUsers` section, since in
+this workshop we configure participants access to AWS using a privilege-limited
+user account, not a role), to reflect:
 
 ```
 mapUsers: |
@@ -127,7 +132,7 @@ successfully, they can get the actual logs from the driver pod using:
 kubectl logs ${DRIVER_POD_NAME} --namespace ${NAMESPACE}
 ```
 
-Do not forget to deleter the driver pod, when you're done or want to run another job.
+Do not forget to delete the driver pod, when you're done or want to run another job.
 TODO: set auto-delete after 5 minutes
 
 ```

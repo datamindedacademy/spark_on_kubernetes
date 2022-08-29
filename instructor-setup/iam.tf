@@ -1,19 +1,19 @@
-# Create IAM users with a default password
-resource "aws_iam_user" "workshop_participants" {
-  for_each = local.users
-  name     = each.key
+variable "keybase_user" {
+  description = <<EOM
+    Enter the keybase id of a person to encrypt the AWS IAM secret access key.
+    Note that you need access to its private key so you can decryptit. In
+    practice that means you specify your own keybase account id.
+  EOM
+}
 
-  force_destroy = true
+resource "aws_iam_user" "workshop_participant" {
+  name = "spark-on-k8s-participant"
+  path = "/system/"
+}
 
-  provisioner "local-exec" {
-    command = "python update_password.py --profile ${local.profile} --username ${each.key} --password \"${local.default_password}\""
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    # TODO: ensure the profile can be configured.
-    command = "python update_password.py --profile academy --username ${each.key} --delete"
-  }
+resource "aws_iam_access_key" "iam_secret_key" {
+  user    = aws_iam_user.workshop_participant.name
+  pgp_key = "keybase:${var.keybase_user}"
 }
 
 resource "aws_iam_group" "group" {
@@ -52,11 +52,21 @@ resource "aws_iam_group_policy_attachment" "eks_workers_policy" {
 }
 
 resource "aws_iam_user_group_membership" "participant_group" {
-  for_each = aws_iam_user.workshop_participants
-  user     = each.key
+  user     = aws_iam_user.workshop_participant.name
   groups   = [aws_iam_group.group.name]
 }
 
-resource "aws_iam_account_alias" "account" {
-  account_alias = local.account_alias
+output "iam_secret_key" {
+  description = <<EOM
+    The IAM secret key, which you provide when configuring the AWS CLI.
+  EOM
+  value = aws_iam_access_key.iam_secret_key.id
+}
+output "iam_secret_access_key" {
+  description = <<EOM
+    The PGP encrypted IAM secret access key.
+    To decrypt: terraform output -raw iam_secret_access_key
+    | base64 --decode | keybase pgp decrypt
+  EOM
+  value = aws_iam_access_key.iam_secret_key.encrypted_secret
 }

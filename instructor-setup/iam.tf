@@ -1,9 +1,9 @@
 variable "keybase_user" {
-  description = <<EOM
+  description = <<-EOM
     Enter the keybase id of a person to encrypt the AWS IAM secret access key.
-    Note that you need access to its private key so you can decryptit. In
+    Note that you need access to its private key so you can decrypt it. In
     practice that means you specify your own keybase account id.
-  EOM
+    EOM
 }
 
 resource "aws_iam_user" "workshop_participant" {
@@ -54,19 +54,4 @@ resource "aws_iam_group_policy_attachment" "eks_workers_policy" {
 resource "aws_iam_user_group_membership" "participant_group" {
   user     = aws_iam_user.workshop_participant.name
   groups   = [aws_iam_group.group.name]
-}
-
-output "iam_secret_key" {
-  description = <<EOM
-    The IAM secret key, which you provide when configuring the AWS CLI.
-  EOM
-  value = aws_iam_access_key.iam_secret_key.id
-}
-output "iam_secret_access_key" {
-  description = <<EOM
-    The PGP encrypted IAM secret access key.
-    To decrypt: terraform output -raw iam_secret_access_key
-    | base64 --decode | keybase pgp decrypt
-  EOM
-  value = aws_iam_access_key.iam_secret_key.encrypted_secret
 }

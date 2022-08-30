@@ -37,3 +37,19 @@ output "ecr_repo" {
   description = "Container registry repo URL"
   value       = aws_ecr_repository.registry.repository_url
 }
+
+output "iam_secret_key" {
+  description = <<EOM
+    The IAM secret key, which you provide when configuring the AWS CLI.
+  EOM
+  value       = aws_iam_access_key.iam_secret_key.id
+}
+
+output "iam_secret_access_key" {
+  description = <<EOM
+    The PGP encrypted IAM secret access key.
+    To decrypt: terraform output -raw iam_secret_access_key
+    | base64 --decode | keybase pgp decrypt
+  EOM
+  value       = aws_iam_access_key.iam_secret_key.encrypted_secret
+}

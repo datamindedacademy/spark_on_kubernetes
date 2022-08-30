@@ -85,6 +85,16 @@ kubectl proxy
 
 Navigate to the [dashboard].
 
+You'll also want to provision a namespace for the Spark jobs. This 
+was once a part of the exercises, but requires more insight into k8s 
+administration, more than is given in this workshop (it should 
+be dedicated). To do so, one could add it to Terraform, but for now it's
+done through a few kubectl commands.
+
+```bash
+./post_terraform_task.sh
+```
+
 ## Grant kubectl admin permissions to students, to run spark-submit
 
 Without more changes to the EKS cluster, participants will encounter an
@@ -108,6 +118,8 @@ mapUsers: |
       - system:masters
 ```
 with the userarn being the one displayed by students in gitpod after running
+
+TODO: this should be accessible from terraform output.
 
 ```
 aws sts get-caller-identity
@@ -133,7 +145,7 @@ kubectl logs ${DRIVER_POD_NAME} --namespace ${NAMESPACE}
 ```
 
 Do not forget to delete the driver pod, when you're done or want to run another job.
-TODO: set auto-delete after 5 minutes
+TODO: set auto-delete after 5 minutes (currently impossible with Spark 3.2.0).
 
 ```
 kubectl delete pod ${DRIVER_POD_NAME} --namespace ${NAMESPACE}

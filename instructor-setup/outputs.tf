@@ -38,6 +38,13 @@ output "ecr_repo" {
   value       = aws_ecr_repository.registry.repository_url
 }
 
+output "iam_user_arn" {
+  description = <<EOM
+    The Amazon resource name of the created user account.
+  EOM
+  value       = aws_iam_user.workshop_participant.arn
+}
+
 output "iam_secret_key" {
   description = <<EOM
     The IAM secret key, which you provide when configuring the AWS CLI.

@@ -117,12 +117,10 @@ mapUsers: |
     groups:
       - system:masters
 ```
-with the userarn being the one displayed by students in gitpod after running
-
-TODO: this should be accessible from terraform output.
+with the userarn being the one displayed by 
 
 ```
-aws sts get-caller-identity
+terraform output iam_user_arn 
 ```
 
 After applying that change as the EKS admin, you'll need to ask students to run 

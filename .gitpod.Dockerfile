@@ -14,7 +14,7 @@ RUN apt-get update && \
     apt-get install -y openjdk-8-jdk python3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz && \
+    wget https://dlcdn.apache.org/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz  && \
     tar xzf spark-3*.tgz && \
     rm -rf spark-3*.tgz && \
     ln -s /home/gitpod/spark-3* /opt/spark && \

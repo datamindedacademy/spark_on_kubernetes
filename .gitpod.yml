@@ -11,10 +11,7 @@ github:
 image:
   file: .gitpod.Dockerfile
 checkoutLocation: gitpod-k3s  
-ports:
-  - port: 4040 # pyspark UI
-    onOpen: notify
-    
+
 tasks:
   - name: setup
     init: |

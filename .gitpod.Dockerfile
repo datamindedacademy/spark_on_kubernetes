@@ -9,7 +9,7 @@ ENV SPARK_LOCAL_IP=0.0.0.0
 
 USER root
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk python3 && \
+    apt-get install -y openjdk-8-jdk python3 python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz && \

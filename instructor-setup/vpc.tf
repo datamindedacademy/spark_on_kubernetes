@@ -27,7 +27,7 @@ resource "random_string" "suffix" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.0"
+  version = "5.1.2"
 
   name                 = "spark-on-k8s-vpc"
   cidr                 = "192.168.0.0/16"
